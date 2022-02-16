@@ -35,5 +35,11 @@ describe("Given I am connected as an employee", () => {
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
     })
+
+    describe("When i click on the New Bill button", () => {
+      test("Then, the New Bill page should be displayed", () => {
+        
+      })
+    })
   })
 })
