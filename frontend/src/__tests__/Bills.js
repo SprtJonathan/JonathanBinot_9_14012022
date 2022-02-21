@@ -26,7 +26,8 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
       //to-do write expect expression
-
+      expect(windowIcon.className).toEqual('active-icon')
+      //expect("icon-window").classList.contains("active-icon").toBe(true)
     })
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
@@ -36,10 +37,6 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted)
     })
 
-    describe("When i click on the New Bill button", () => {
-      test("Then, the New Bill page should be displayed", () => {
-        
-      })
-    })
+    
   })
 })
