@@ -29,6 +29,8 @@ export default class {
 
   getBills = () => {
     if (this.store) {
+      
+      console.log(this.store.bills().list)
       return this.store
       .bills()
       .list()
