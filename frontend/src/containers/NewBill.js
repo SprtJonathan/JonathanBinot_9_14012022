@@ -128,6 +128,9 @@ export default class NewBill {
   };
 
   // not need to cover this function by tests
+  // On dit à Jest d'ignorer la fonction suivante
+  /* istanbul ignore next */
+
   updateBill = (bill) => {
     if (this.store) {
       this.store
