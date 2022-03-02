@@ -20,13 +20,16 @@ describe("Given I am connected as an employee", () => {
       //to-do write assertion
     });*/
 
+    // On teste le fait que le texte envoyer une note de frais est bien présent sur la page NewBillUI, prouvant que la page est chargée
     test("Then the text send a new bill should be rendered", () => {
       const html = NewBillUI();
       document.body.innerHTML = html;
       expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
     });
 
+    // Test sur le formulaire.
     describe("When I fill a form with valid fields and I submit it", () => {
+      // On vérifie qu'en remplissant un formulaire et en faisant l'envoi à l'API, une nouvelle note de frais est créée
       test("Then the form is submitted to the api and a new bill is created", () => {
         const onNavigate = (pathname) =>
           (document.body.innerHTML = ROUTES({ pathname }));
@@ -51,6 +54,7 @@ describe("Given I am connected as an employee", () => {
           localStorage: window.localStorage,
         });
 
+        // Création de l'objet contenant les informations de la facture
         const billData = {
           email: "employee@test.tld",
           type: "Transport",
@@ -65,6 +69,7 @@ describe("Given I am connected as an employee", () => {
           status: "pending",
         };
 
+        // Récupération des différents inputs du formulaire et activation d'un event lors du changement de valeur de l'input
         const inputTypeBill = screen.getByTestId("expense-type");
         fireEvent.change(inputTypeBill, {
           target: { value: billData.type },
@@ -111,14 +116,18 @@ describe("Given I am connected as an employee", () => {
 
         fireEvent.submit(newBillForm);
 
+        // On s'attend à ce que la fonction chargée de soumettre le formulaire soit appellée
         expect(handleSubmit).toHaveBeenCalled();
       });
 
+      // Lorsqu'une nouvelle note de frais est créée, alors la page doit revenir au tableau de bord
       test("Then the page should return to the dashboard", () => {
         expect(screen.getAllByText("Mes notes de frais")).toBeTruthy();
       });
     });
+    // Test de la réaction du programme lorsqu'un fichier de format incorrect est envoyé
     describe("When I upload a file with an incorrect file extension", () => {
+      // On vérifie qu'une erreur soit bien retournée
       test("Then an error should be returned", () => {
         const onNavigate = (pathname) =>
           (document.body.innerHTML = ROUTES({ pathname }));
@@ -141,6 +150,8 @@ describe("Given I am connected as an employee", () => {
           store: null,
           localStorage: window.localStorage,
         });
+
+        // Récupération de l'input permettant d'envoyer un fichier
         const inputFile = screen.getByTestId("file");
         fireEvent.change(inputFile, {
           target: {
@@ -150,10 +161,14 @@ describe("Given I am connected as an employee", () => {
           },
         });
 
+        // Récupération du message d'erreur sur la page
         const error = screen.getByTestId("error-message");
-        expect(error).toBeTruthy();
-        expect(inputFile.classList.contains("is-invalid")).toBeTruthy();
+        expect(error).toBeTruthy(); // On s'attend à voir un message d'erreur
+
+        // On s'attend à ce que l'input contiennent dans sa classe "is-invalid"
+        expect(inputFile.classList.contains("is-invalid")).toBeTruthy(); 
       });
+      // Test sur le remplacement du fichier invalide par un valide
       test("Then if user replace the invalid file", async () => {
         const onNavigate = (pathname) =>
           (document.body.innerHTML = ROUTES({ pathname }));
