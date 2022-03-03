@@ -3,6 +3,7 @@
  */
 
 import { screen, fireEvent } from "@testing-library/dom";
+import BillsUI from "../views/BillsUI.js";
 import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
@@ -166,7 +167,7 @@ describe("Given I am connected as an employee", () => {
         expect(error).toBeTruthy(); // On s'attend à voir un message d'erreur
 
         // On s'attend à ce que l'input contiennent dans sa classe "is-invalid"
-        expect(inputFile.classList.contains("is-invalid")).toBeTruthy(); 
+        expect(inputFile.classList.contains("is-invalid")).toBeTruthy();
       });
       // Test sur le remplacement du fichier invalide par un valide
       test("Then if user replace the invalid file", async () => {
@@ -214,6 +215,49 @@ describe("Given I am connected as an employee", () => {
 
         expect(inputFile.classList.contains("is-invalid")).toBeFalsy();
         expect(inputFile.classList.contains("blue-border")).toBeTruthy();
+      });
+    });
+    describe("When I submit a new bill and return to Bill Page", () => {
+      test("fetches bills from mock API GET", async () => {
+        // Création de l'objet contenant les informations de la facture
+        const billData = {
+          email: "employee@test.tld",
+          type: "Transport",
+          name: "New bill test",
+          amount: 150,
+          date: "2022/03/01",
+          vat: "80",
+          pct: 20,
+          commentary: "Lorem ipsum dolor sit amet",
+          fileUrl: "test.png",
+          fileName: "NewBill Test",
+          status: "pending",
+        };
+
+        const postSpy = jest.spyOn(mockStore, "bills");
+        const bills = await mockStore.bills(billData);
+
+        expect(postSpy).toHaveBeenCalledTimes(1); // On s'attend à ce que la méthode bills() soit appellée
+        expect(bills).toBeTruthy();
+      });
+      test("fetches bills from an API and fails with 404 message error", async () => {
+        mockStore.bills.mockImplementationOnce(() =>
+          Promise.reject(new Error("Erreur 404"))
+        );
+        const html = BillsUI({ error: "Erreur 404" });
+        document.body.innerHTML = html;
+        const message = await screen.getByText(/Erreur 404/);
+        expect(message).toBeTruthy();
+      });
+
+      test("fetches messages from an API and fails with 500 message error", async () => {
+        mockStore.bills.mockImplementationOnce(() =>
+          Promise.reject(new Error("Erreur 500"))
+        );
+        const html = BillsUI({ error: "Erreur 500" });
+        document.body.innerHTML = html;
+        const message = await screen.getByText(/Erreur 500/);
+        expect(message).toBeTruthy();
       });
     });
   });
