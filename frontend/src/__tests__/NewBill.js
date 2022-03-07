@@ -6,12 +6,10 @@ import { screen, fireEvent } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
-import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
+import { ROUTES } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import mockStore from "../__mocks__/store";
 jest.mock("../app/store", () => mockStore);
-
-import userEvent from "@testing-library/user-event";
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
@@ -220,6 +218,8 @@ describe("Given I am connected as an employee", () => {
     describe("When I submit a new bill and return to Bill Page", () => {
       test("fetches bills from mock API GET", async () => {
         // Création de l'objet contenant les informations de la facture
+
+        // Importer un mock depuis le fichier store
         const billData = {
           email: "employee@test.tld",
           type: "Transport",

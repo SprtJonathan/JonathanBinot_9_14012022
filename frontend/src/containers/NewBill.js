@@ -1,6 +1,10 @@
 import { ROUTES_PATH } from "../constants/routes.js";
 import Logout from "./Logout.js";
+/*import mockStore from "../__mocks__/store.js";
 
+
+console.log(mockStore.bills());
+console.log(mockStore.bills().list());*/
 export default class NewBill {
   constructor({ document, onNavigate, store, localStorage }) {
     this.document = document;
@@ -66,7 +70,8 @@ export default class NewBill {
       errorMessage.classList.add("invalid-feedback");
       errorMessage.setAttribute("data-testid", "error-message");
       errorMessage.setAttribute("id", "upload-error-message");
-      if (!this.document.getElementById("upload-error-message")) { // Condition permettant de n'afficher le message d'erreur qu'une seule fois sur la page
+      if (!this.document.getElementById("upload-error-message")) {
+        // Condition permettant de n'afficher le message d'erreur qu'une seule fois sur la page
         uploadInput.parentNode.append(errorMessage);
       }
 
