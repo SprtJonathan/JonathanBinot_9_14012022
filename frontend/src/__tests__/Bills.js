@@ -15,11 +15,11 @@ import mockStore from "../__mocks__/store";
 
 import router from "../app/Router.js";
 
-jest.mock("../app/store", () => mockStore)
-
+jest.mock("../app/store", () => mockStore);
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
+    // On vérifie que l'on se trouve bien sur la page contenant les factures en s'assurant que l'icône associée est en surbrillance
     test("Then bill icon in vertical layout should be highlighted", async () => {
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
@@ -41,6 +41,7 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.className).toEqual("active-icon");
       //expect("icon-window").classList.contains("active-icon").toBe(true)
     });
+    // On vérifie que les factures sont affichées par ordre de date décroissante
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills });
       const dates = screen

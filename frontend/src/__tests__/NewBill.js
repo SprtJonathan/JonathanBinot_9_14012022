@@ -69,6 +69,8 @@ describe("Given I am connected as an employee", () => {
         };
 
         // Récupération des différents inputs du formulaire et activation d'un event lors du changement de valeur de l'input
+
+        // Cette partie n'est pas nécessaire car aucune vérification des champs n'est effectuée
         const inputTypeBill = screen.getByTestId("expense-type");
         fireEvent.change(inputTypeBill, {
           target: { value: billData.type },
@@ -115,7 +117,7 @@ describe("Given I am connected as an employee", () => {
 
         fireEvent.submit(newBillForm);
 
-        // On s'attend à ce que la fonction chargée de soumettre le formulaire soit appellée
+        // On s'attend à ce que la fonction chargée de soumettre le formulaire soit appellée (aucune vérification du form)
         expect(handleSubmit).toHaveBeenCalled();
       });
 
