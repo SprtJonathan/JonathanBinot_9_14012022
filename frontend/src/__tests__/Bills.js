@@ -91,7 +91,7 @@ describe("Given I am connected as an employee", () => {
         expect(NewBillUI()).toBeTruthy();
       });
       describe("When I click on the icon eye", () => {
-        test("A modal should open", () => {
+        test("Then a modal should open", () => {
           Object.defineProperty(window, "localStorage", {
             value: localStorageMock,
           });

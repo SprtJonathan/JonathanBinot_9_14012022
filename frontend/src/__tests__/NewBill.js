@@ -27,9 +27,9 @@ describe("Given I am connected as an employee", () => {
     });
 
     // Test sur le formulaire.
-    describe("When I fill a form with valid fields and I submit it", () => {
+    describe("When I fill a form and I submit it", () => {
       // On vérifie qu'en remplissant un formulaire et en faisant l'envoi à l'API, une nouvelle note de frais est créée
-      test("Then the form is submitted to the api and a new bill is created", () => {
+      test("Then the function used for submitting the form is called", () => {
         const onNavigate = (pathname) =>
           (document.body.innerHTML = ROUTES({ pathname }));
 
@@ -53,65 +53,11 @@ describe("Given I am connected as an employee", () => {
           localStorage: window.localStorage,
         });
 
-        // Création de l'objet contenant les informations de la facture
-        const billData = {
-          email: "employee@test.tld",
-          type: "Transport",
-          name: "New bill test",
-          amount: 150,
-          date: "2022/03/01",
-          vat: "80",
-          pct: 20,
-          commentary: "Lorem ipsum dolor sit amet",
-          fileUrl: "test.png",
-          fileName: "NewBill Test",
-          status: "pending",
-        };
-
-        // Récupération des différents inputs du formulaire et activation d'un event lors du changement de valeur de l'input
-
-        // Cette partie n'est pas nécessaire car aucune vérification des champs n'est effectuée
-        const inputTypeBill = screen.getByTestId("expense-type");
-        fireEvent.change(inputTypeBill, {
-          target: { value: billData.type },
-        });
-
-        const inputNameBill = screen.getByTestId("expense-name");
-        fireEvent.change(inputNameBill, {
-          target: { value: billData.name },
-        });
-
-        const inputAmountBill = screen.getByTestId("amount");
-        fireEvent.change(inputAmountBill, {
-          target: { value: billData.amount },
-        });
-
-        const inputDateBill = screen.getByTestId("datepicker");
-        fireEvent.change(inputDateBill, {
-          target: { value: billData.date },
-        });
-
-        const inputVatBill = screen.getByTestId("vat");
-        fireEvent.change(inputVatBill, {
-          target: { value: billData.vat },
-        });
-
-        const inputPctBill = screen.getByTestId("pct");
-        fireEvent.change(inputPctBill, {
-          target: { value: billData.pct },
-        });
-
-        const inputCommentaryBill = screen.getByTestId("commentary");
-        fireEvent.change(inputCommentaryBill, {
-          target: { value: billData.commentary },
-        });
-
-        newBill.fileUrl = billData.fileUrl;
-        newBill.fileName = billData.fileName;
+        
 
         const newBillForm = screen.getByTestId("form-new-bill");
 
-        const handleSubmit = jest.fn(newBill.handleSubmit);
+        const handleSubmit = jest.fn(newBill.handleSubmit); // Simule la fonction permettant d'envoyer le formulaire
 
         newBillForm.addEventListener("submit", handleSubmit);
 
@@ -239,7 +185,7 @@ describe("Given I am connected as an employee", () => {
         const postSpy = jest.spyOn(mockStore, "bills");
         const bills = await mockStore.bills(billData);
 
-        expect(postSpy).toHaveBeenCalledTimes(1); // On s'attend à ce que la méthode bills() soit appellée
+        expect(postSpy).toHaveBeenCalledTimes(1); // On s'attend à ce que la méthode bills() soit appelée
         expect(bills).toBeTruthy();
       });
       test("fetches bills from an API and fails with 404 message error", async () => {
