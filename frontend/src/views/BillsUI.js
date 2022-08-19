@@ -26,9 +26,7 @@ const row = (bill) => {
 const rows = (data) => {
   return data && data.length
     ? data
-        .sort(function (a, b) {
-          return new Date(b.date) - new Date(a.date);
-        }) // Morceau de code permettant de trier les factures selon  les dates
+        .sort((a, b) => (a.date < b.date ? 1 : -1))
         .map((bill) => row(bill))
         .join("")
     : "";
